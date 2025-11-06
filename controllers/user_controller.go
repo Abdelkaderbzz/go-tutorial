@@ -3,10 +3,11 @@ package controllers
 import (
 	"context"
 	"fmt"
-	"net/http"
-	"time"
 	"myapp/database"
 	"myapp/models"
+	"net/http"
+	"time"
+
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
@@ -42,6 +43,7 @@ func CreateUser(c *gin.Context) {
 
 	c.JSON(http.StatusCreated, gin.H{
 		"inserted_id": res.InsertedID,
-		"user":        user,
+		"success":        true,
+		"message":        "user created successfully",
 	})
 }
