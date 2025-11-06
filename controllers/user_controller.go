@@ -1,8 +1,8 @@
 package controllers
 
-// ... existing code ...
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"time"
 	"myapp/database"
@@ -22,16 +22,17 @@ func CreateUser(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "database not initialized"})
 		return
 	}
+	fmt.Println("CreateUser called")
 
 	var user models.User
 	if err := c.BindJSON(&user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
 	user.ID = primitive.NewObjectID()
 	user.CreatedAt = primitive.NewDateTimeFromTime(time.Now())
-
+	
+	fmt.Printf("User: %+v\n", user)
 	collection := database.MongoClient.Database("godatabase").Collection("users")
 	res, err := collection.InsertOne(context.Background(), user)
 	if err != nil {
