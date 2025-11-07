@@ -1,6 +1,5 @@
 
 # Go Tutorial API (Gin + MongoDB)
-![Funny Gopher](https://raw.githubusercontent.com/MariaLetta/free-gophers-pack/master/png/14.png)
 This is a sample REST API built with Go, Gin, and MongoDB. It provides basic user management functionalities, including creating and greeting a user. The project also includes input validation and automatically generated API documentation.
 
 ## Project Structure
