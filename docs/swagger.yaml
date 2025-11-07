@@ -1,0 +1,73 @@
+basePath: /
+definitions:
+  models.User:
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: This is a sample server for users.
+  title: Example User API
+  version: "1.0"
+paths:
+  /user/{name}:
+    get:
+      description: Returns a simple greeting message.
+      parameters:
+      - description: User name
+        in: path
+        name: name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Greet user by name
+      tags:
+      - Users
+  /users:
+    post:
+      consumes:
+      - application/json
+      description: Create a user with name, email, and age
+      parameters:
+      - description: User data
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Validation error
+          schema:
+            additionalProperties: true
+            type: object
+        "409":
+          description: Email already registered
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create a new user
+      tags:
+      - Users
+swagger: "2.0"

@@ -18,11 +18,30 @@ import (
 
 var validate = validator.New()
 
+// GreetUser godoc
+// @Summary Greet user by name
+// @Description Returns a simple greeting message.
+// @Tags Users
+// @Produce  json
+// @Param   name  path  string  true  "User name"
+// @Success 200 {object} map[string]string
+// @Router /user/{name} [get]
 func GreetUser(c *gin.Context) {
 	name := c.Param("name")
 	c.JSON(http.StatusOK, gin.H{"message": "Hello, " + name + "!"})
 }
-
+// CreateUser godoc
+// @Summary Create a new user
+// @Description Create a user with name, email, and age
+// @Tags Users
+// @Accept  json
+// @Produce  json
+// @Param   user  body  models.User  true  "User data"
+// @Success 201 {object} map[string]interface{}
+// @Failure 400 {object} map[string]interface{} "Validation error"
+// @Failure 409 {object} map[string]string "Email already registered"
+// @Failure 500 {object} map[string]string "Internal server error"
+// @Router /users [post]
 func CreateUser(c *gin.Context) {
 	if database.MongoClient == nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "database not initialized"})
