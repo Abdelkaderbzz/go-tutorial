@@ -1,6 +1,33 @@
 basePath: /
 definitions:
   models.User:
+    properties:
+      age:
+        example: 30
+        maximum: 120
+        minimum: 0
+        type: integer
+      created_at:
+        format: date-time
+        type: string
+      email:
+        example: john.doe@example.com
+        format: email
+        type: string
+      id:
+        type: string
+      name:
+        example: John Doe
+        maxLength: 20
+        minLength: 3
+        type: string
+      password:
+        example: password123
+        type: string
+    required:
+    - name
+    - email
+    - password
     type: object
 host: localhost:8080
 info:
