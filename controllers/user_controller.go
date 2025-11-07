@@ -8,12 +8,15 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/go-playground/validator/v10"
+
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
+var validate = validator.New()
 
 func GreetUser(c *gin.Context) {
 	name := c.Param("name")
@@ -32,7 +35,14 @@ func CreateUser(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
+ 	if err := validate.Struct(user); err != nil {
+        errors := make(map[string]string)
+        for _, err := range err.(validator.ValidationErrors) {
+            errors[err.Field()] = err.Tag() // e.g., "required", "email", "min"
+        }
+        c.JSON(http.StatusBadRequest, gin.H{"validation_errors": errors})
+        return
+    }
 	var existingUser models.User
 	err := usersCollection.FindOne(context.Background(), bson.M{"email": user.Email}).Decode(&existingUser)
 	if err == nil {
