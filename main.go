@@ -5,7 +5,7 @@ import (
 	"myapp/database"
 	"myapp/routes"
 	"os"
-	_ "myapp/docs" // Import the docs package
+	_ "myapp/docs" 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	swaggerFiles "github.com/swaggo/files"
@@ -28,7 +28,6 @@ func main() {
 
 	router := gin.Default()
 
-	// Swagger docs endpoint
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	routes.RegisterUserRoutes(router)

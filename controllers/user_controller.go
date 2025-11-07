@@ -65,21 +65,17 @@ func CreateUser(c *gin.Context) {
 	var existingUser models.User
 	err := usersCollection.FindOne(context.Background(), bson.M{"email": user.Email}).Decode(&existingUser)
 	if err == nil {
-		// User found => email already registered
 		c.JSON(http.StatusConflict, gin.H{"error": "Email already registered"})
 		return
 	}
 	if err != mongo.ErrNoDocuments {
-		// Some other database error
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Database error"})
 		return
 	}
 
-	// 3️⃣ Add metadata
 	user.ID = primitive.NewObjectID()
 	user.CreatedAt = primitive.NewDateTimeFromTime(time.Now())
 
-	// 4️⃣ Save user using your service layer
 	svc := services.NewUserService(database.MongoClient, "godatabase")
 	insertedID, err := svc.CreateUser(context.Background(), user)
 	if err != nil {

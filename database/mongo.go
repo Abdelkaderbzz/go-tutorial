@@ -1,4 +1,4 @@
-// database/mongo.go
+
 package database
 
 import (
